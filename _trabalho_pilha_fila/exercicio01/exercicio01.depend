@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1602850255 source:c:\users\joao batista\documents\faculdade\_aulas_remotas\aed\_trabalho_pilha_fila\exercicio01\main.c
+	<stdio.h>
+	<stdlib.h>
+	"libery/pilha.h"
+
+1602854039 c:\users\joao batista\documents\faculdade\_aulas_remotas\aed\_trabalho_pilha_fila\exercicio01\libery\pilha.h
+
+1602852355 source:c:\users\joao batista\documents\faculdade\_aulas_remotas\aed\_trabalho_pilha_fila\exercicio01\pilha.c
+	<stdio.h>
+	<stdlib.h>
+	"libery/pilha.h"
+
