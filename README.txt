@@ -1,6 +1,6 @@
 O progresso do esquema:
 1 - 
-2 - 
+2 - 20%
 3 - 
 4 - 
 5 - 
