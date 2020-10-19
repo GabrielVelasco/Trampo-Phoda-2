@@ -1,0 +1,10 @@
+typedef struct deque *Deque;
+Deque cria_deque();
+int libera_deque(Deque);
+int deque_vazio(Deque);
+int deque_cheio(Deque);
+int insere_inicio(Deque,int);
+int insere_final(Deque,int);
+int remove_inicio(Deque);
+int remove_final(Deque);
+int get_elemento(Deque,int , int *);
