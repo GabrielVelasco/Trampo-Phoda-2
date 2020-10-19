@@ -5,6 +5,6 @@ O progresso do esquema:
 4 - 
 5 - 
 6 - 
-7 - 
+7 - Pronto
 8 - 
 9 - 
