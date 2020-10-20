@@ -15,10 +15,6 @@
 
     Como eh usado a math.h caso for compilar no terminal tem que linkar
     usando: gcc -o exec main.c stack.c -lm
-
-    Na parte da resolucao da expressao eh pedido os valores dos literais de 0 a 9
-    este processo poderia ser feito dentro da funcao _solve_post_fix().
-    
 */
 
 void _print_elem(char c_data, float f_data, int key){
@@ -30,16 +26,6 @@ void _print_elem(char c_data, float f_data, int key){
 
 void _empty_msg(){
     printf("Stack is empty!\n");
-}
-
-void _get_value(char exp[]){
-    for(int i = 0; exp[i] != '\0'; i++){
-        if(exp[i] >= 'A' && exp[i] <= 'J'){
-            getchar();
-            printf("Digite valor de [%c] (0 a 9): ", exp[i]);
-            scanf("%c", &exp[i]);
-        }
-    }
 }
 
 int main(){
@@ -60,7 +46,6 @@ int main(){
 
             printf("\nPost-fix: %s\n", exp);
             printf("\nAtribuir valores:\n");
-            _get_value(exp);
 
             ch = _solve_post_fix(&S, exp, &r);
             if(ch == 1){

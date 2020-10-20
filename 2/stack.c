@@ -202,10 +202,12 @@ int _solve_post_fix(Stack *S, char pos[], float *r){
     /// expressao tem que estar na forma pos-fixa e os operandos tem
     /// que ser digitos (0,1,...,9).
     char op;
-    float x1, x2;
+    float x1, x2, n;
     for(int i = 0; pos[i] != '\0'; i++){
-        if(isdigit(pos[i])){
-            _push(S, '0', (int)(pos[i]-'0'), 1);
+        if(pos[i] >= 'A' && pos[i] <= 'J'){
+            printf("Digite o valor de [%c]: ", pos[i]);
+            scanf("%f", &n);
+            _push(S, '0', n, 1);
         
         }else{
             /// pos[i] == operador
