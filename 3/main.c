@@ -3,12 +3,12 @@
 #include <string.h>
 #include "tad.h"
 #define max_veic 10
-#define max_box 6
+#define max_box 2
 int main()
 {
     fila f[max_box];
     char placa[10],op;
-    int i,j,tam,box;
+    int i,tam,box;
     //-----------Criacao das filas------------------------
     for(i = 0;i < max_box;i++){
         f[i] = cria_fila();
@@ -30,6 +30,7 @@ int main()
              printf("Qual placa deseja inserir?\n");
              setbuf(stdin,NULL);
              gets(placa);
+             box = 0;
              tam = tamanho(f[0]);
              for(i = 1;i < max_box-1; i++){
                  if(tam > tamanho(f[i])){
@@ -70,20 +71,21 @@ int main()
          case '3':
             for(i = 0; i < max_box;i++){
                 tam = tamanho(f[i]);
-            if(i < 5)
+            if(i < max_box-1)
                printf("Box [%d]:\n",i);
             else
                printf("Fila de espera:\n");
-              for(j = 0;j < tam;j++){
-                visualizar(f[j]);
+              visualizar(f[i]);
              }
-            }
             break;
 //----------------------------------------------------------------------
          case '4':
             printf("Saindo");
             return 0;
 //----------------------------------------------------------------------
+         case '5':
+          remove_ini(f[0]);
+          break;
         }
        }
     return 0;
