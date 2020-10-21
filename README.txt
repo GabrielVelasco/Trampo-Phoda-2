@@ -1,7 +1,7 @@
 O progresso do esquema:
 1 - falta so o programa aplicativo (no main ja fiz a função que imprime)
 2 - Pronto
-3 - 80%
+3 - Falta arrumar a remoção
 4 - 
 5 - 
 6 - 
