@@ -2,7 +2,7 @@ O progresso do esquema:
 1 - DONE
 2 - DONE
 3 - Falta arrumar a remoção
-4 - Amauri na contencao
+4 - DRONE
 5 - se Deus quiser
 6 - 50%
 7 - DONE
