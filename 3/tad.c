@@ -3,7 +3,7 @@
 #include <string.h>
 #include "tad.h"
 #define max_veic 10
-#define max_box 2 //o sexto box eh a fila de espera
+#define max_box 2 //o sexto box eh a fila de espera, ta 2 agr pq e teste
 
 struct Fila{
 char placa[max_veic][10];
@@ -59,7 +59,6 @@ f->ini = (f->ini+1)%max_veic; //incremento circular na variavel inicio para remo
 return 1;
 }
 
-
 int remover(fila f,char placa[10]){
 if(fila_vazia(f))
   return 0;
@@ -78,9 +77,9 @@ for(i = f->ini;i < f->cont_veic;i++){ //procura a placa que deve ser removida
     remove_ini(f);
     int j;
     for(j = 0; j < i;j++){
-        insere(f,aux->placa[j]);
+        strcpy(f->placa[i],aux->placa[j]);
+        //f->cont_veic++;
     }
-    f->cont_veic--;
     free(aux);
     break;
   }
