@@ -2,229 +2,161 @@
 #include <stdlib.h>
 #include <string.h>
 #include "pilha.h"
-#define maximo 20
-
-struct pilha
-{
-    int info[maximo][33];
-    int topo;
+#define max 20
+struct Pilha{
+  int tipo[max];
+   union{
+    int n;
+    char hexal[33];
+    }info[max];
+  int topo;
 };
 
-Pilha cria_pilha()
-{
-    Pilha p;
-    p=(Pilha)malloc(sizeof(struct pilha));
-    if(p!=NULL)
-    {
-        p->topo=-1;
+pilha cria_pilha(){
+pilha p;
+p = (pilha) malloc(sizeof(struct Pilha));
+if(p != NULL)
+    p->topo = -1;
+return p;
+}
+
+int pilha_vazia(pilha p){
+if(p->topo == -1)
+    return 1;
+return 0;
+}
+
+int pilha_cheia(pilha p){
+if(p->topo == max-1)
+    return 1;
+return 0;
+}
+
+int push(pilha p,int tipo,int elem,char hexa[33]){
+if(p == NULL || pilha_cheia(p) == 1)
+    return 0;
+p->topo++;
+if(tipo == 0){
+p->info[p->topo].n = elem;
+p->tipo[p->topo] = tipo;
+}
+else{
+strcpy(p->info[p->topo].hexal,hexa);
+p->tipo[p->topo] = tipo;
+}
+return 1;
+}
+
+int pop(pilha p){
+if(p == NULL || pilha_vazia(p) == 1)
+    return 0;
+p->topo--;
+return 1;
+}
+
+int le_topo(pilha p,int *elem,char hexa[33],int *tipo){
+if(p == NULL || pilha_vazia(p) == 1)
+    return 0;
+if(p->tipo[p->topo] == 0)
+    *elem = p->info[p->topo].n;
+else
+    strcpy(hexa,p->info[p->topo].hexal);
+*tipo = p->tipo[p->topo];
+return 1;
+}
+
+int binario(pilha p,int decimal){
+if(p == NULL || pilha_cheia(p) == 1)
+    return 0;
+
+int valor_binario = 0;
+int resto,sequencial = 1;
+
+while(decimal != 0  ){
+        resto = decimal % 2;
+
+        decimal /= 2;
+
+        valor_binario += resto * sequencial;
+
+        sequencial *= 10;
+     }
+if(push(p,0,valor_binario,NULL))
+  return 1;
+else
+  return 0;
+}
+
+int octal(pilha p,int decimal){
+if(p == NULL || pilha_cheia(p) == 1)
+    return 0;
+
+int valor_octal = 0,sequencia = 1;
+    while (decimal != 0){
+        //Soma o valor octal com o resto da divisão do decimal por 8 multiplicado pelo sequencial
+        valor_octal += (decimal % 8) * sequencia;
+
+        decimal /= 8;
+
+        sequencia *= 10;
     }
-    return p;
+if(push(p,0,valor_octal,NULL))
+    return 1;
+else
+    return 0;
 }
 
-int pilha_cheia(Pilha p)
-{
-    return (p->topo ==maximo-1);
+int hexadecimal(pilha p,int decimal){
+ if(p == NULL || pilha_cheia(p) == 1)
+    return 0;
+
+int sequencial = 1, c = decimal,temp = 0;
+char hexa[33];
+
+while(c > 15){
+    c = c / 16;
+    sequencial++;
 }
-int pilha_vazia(Pilha p)
-{
-    return (p->topo==-1);
-}
-/*
-int push(Pilha p, int n)
-{
-    if(p==NULL || pilha_cheia(p)==1)
-        return 0;
-    p->topo++;
-    p->info[p->topo]=n;
+hexa[sequencial] = '\0';
+sequencial--;
+while(decimal != 0){
+    temp = decimal % 16;
+
+    if(temp < 10 ) //menor q 10 soma com 48(tabela ASCII para numeros)
+       temp = temp + 48;
+    else
+       temp = temp + 55; //caso contrario 55(tabela ASCII para letras)
+    hexa[sequencial] = temp;
+    sequencial = sequencial - 1;
+    decimal = decimal / 16;
+  }
+  if(push(p,1,0,hexa))
     return 1;
+  else
+    return 0;
 }
 
-int pop(Pilha p, int* n)
-{
-    if(p==NULL || pilha_vazia(p)==1)
-        return 0;
-    *n=p->info[p->topo];
-    p->topo--;
-    return 1;
-}
-int ver_topo(Pilha p, int* n)
-{
-    if(p==NULL || pilha_vazia(p)==1)
-        return 0;
-    *n=p->info[p->topo];
-    return 1;
-
-}
-*/
-int esvazia(Pilha p){
-    if(pilha_vazia(p)==1)
+int esvazia_pilha(pilha p){
+if(pilha_vazia(p)==1)
     {
         return 0;
     }
     p->topo=-1;
     return 1;
 }
-int binario(Pilha p, char decim[34])
-{
-    if(p==NULL)
-        return 0;
-    p->topo = p->topo + 1;
-    int decimal = atoi(decim);
-    int teste = decimal;
-    int tamanho = 0;
-    while(teste > 2){
-       teste = teste/2;
-       tamanho++;
-    }
-    p->info[p->topo][tamanho + 1] = -1;
-    while(decimal >= 2)
-    {
-        p->info[p->topo][tamanho] = decimal%2;
-        decimal = decimal / 2;
-        tamanho = tamanho - 1;
-    }
-    if(decimal < 2){
-        p->info[p->topo][0] = decimal;
-    }
-    return 1;
-}
-int octal(Pilha p, char decim[34])
-{
-     if(p==NULL)
-        return 0;
-    p->topo++;
-    int decimal = atoi(decim);
-    int teste = decimal;
-    int tamanho = 0;
-    while(teste > 8){
-       teste = teste/8;
-       tamanho++;
-    }
-    p->info[p->topo][tamanho + 1] = -1;
-    while(decimal>=8)
-    {
-        p->info[p->topo][tamanho] = decimal%8;
-        decimal = decimal / 8;
-        tamanho = tamanho - 1;
-    }
- /*   if(decimal==8)
-    {
-        p->info[p->topo][0] = 0;
-    }*/
-    if(decimal < 8){
-        p->info[p->topo][0] = decimal;
-    }
 
-    return 1;
-}
-
-int hexa(Pilha p, char decim[34])
-{
-    if(p==NULL)
-    return 0;
-    p->topo++;
-    int decimal = atoi(decim);
-    int teste = decimal;
-    int tamanho = 0;
-    while(teste > 16){
-       teste = teste/16;
-       tamanho++;
-    }
-    p->info[p->topo][tamanho + 1] = -1;
-    while(decimal>=16)
-    {
-        p->info[p->topo][tamanho] = decimal%16;
-        decimal = decimal / 16;
-        tamanho = tamanho - 1;
-    }
- /*   if(decimal==16)
-    {
-        p->info[p->topo][0] = 0;
-    }*/
-    if(decimal < 16){
-        p->info[p->topo][0] = decimal;
-    }
-
-    return 1;
-}
-/*
-int imprimePilha(Pilha p){
-        if(pilha_vazia(p)==1)
-        {
-            printf("A pilha esta vazia\n");
-            return 0;
-        }
-      Pilha aux = cria_pilha();
-
-        int n;
-        while(pop(p, &n) == 1){
-            push(aux, n);
-            printf("%d", n);
-            switch (n){
-        case 10:
-            printf("A");
-            break;
-        case 11:
-            printf("B");
-            break;
-        case 12:
-            printf("C");
-            break;
-        case 13:
-            printf("D");
-            break;
-        case 14:
-            printf("E");
-            break;
-        case 15:
-            printf("F");
-            break;
-        default:
-            printf("%d",n);
-            }
-           // printf("\n");
-        }
-        while(pop(aux, &n) == 1){
-            push(p, n);
-        }
-            return 1;
-    }
-*/
-void imprime(Pilha p){
-if(pilha_vazia(p)){
+void imprime(pilha p){
+if(pilha_vazia(p))
     printf("A pilha esta vazia\n");
-}
 else{
- int i,j,numero;
- if(p->topo == 0) p->topo++;
-  for(i = 0;i < p->topo;i++){
-        for(j = 0; p->info[i][j] != -1;j++){
-            numero = p->info[i][j];
-        switch(numero){
-          case 10:
-            printf("A");
-            break;
-        case 11:
-            printf("B");
-            break;
-        case 12:
-            printf("C");
-            break;
-        case 13:
-            printf("D");
-            break;
-        case 14:
-            printf("E");
-            break;
-        case 15:
-            printf("F");
-            break;
-        default:
-            printf("%d",numero);
-           }
-         }
-           printf("\n");
-      }
+  int i;
+  for(i = 0; i <= p->topo;i++){
+       if(p->tipo[i] == 0)
+            printf("%d\n",p->info[i].n);
+       else
+            printf("%s\n",p->info[i].hexal);
+    }
    }
 }
+
 
