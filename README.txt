@@ -1,5 +1,5 @@
 O progresso do esquema:
-1 - Incompleto
+1 - Pronto
 2 - Pronto
 3 - Falta arrumar a remoção
 4 - 
