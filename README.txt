@@ -7,4 +7,4 @@ O progresso do esquema:
 6 - 
 7 - Pronto
 8 - 
-9 - 
+9 - tem 9 não KKKK
