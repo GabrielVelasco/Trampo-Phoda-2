@@ -1,10 +1,10 @@
 O progresso do esquema:
-1 - falta so o programa aplicativo (no main ja fiz a função que imprime)
+1 - Pronto
 2 - Pronto
-3 - 20%
+3 - Falta arrumar a remoção
 4 - 
 5 - 
 6 - 
 7 - Pronto
 8 - 
-9 - 
+9 - tem 9 não KKKK
