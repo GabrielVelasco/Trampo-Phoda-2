@@ -4,15 +4,15 @@
 #include "queue.h"
 
 struct node{
-	char nome[15], orgao[15];
+	char nome[150], orgao[15];
 	int idade, grau; 
 	struct node* next;
 
 };
 
 struct node_doadores{
-	char nome[15];
-	char orgao_benef[10][70]; /// orgao_benef[i] == "orgao doou para benef"
+	char nome[150];
+	char orgao_benef[10][300]; /// orgao_benef[i] == "orgao doou para benef"
 	struct node_doadores* next;
 
 };
@@ -63,16 +63,17 @@ int _is_available(Queue *qu, char orgao[]){
 		if(tmp->next == tmp){
 			/// unico node presente na fila
 			*qu = NULL; /// fila fica vazia
-			free(tmp);
 		}else{
-			tmp->next = (*qu)->next;
+			tmp2 = tmp->next;
+			tmp->next = tmp2->next;
 			*qu = tmp; /// novo ultimo node
-			free(tmp->next); /// libera antigo ultimo node
+			free(tmp2); /// libera antigo ultimo node
 		}
 
 		return 1;
 	}
 
+	return 0;
 }
 
 int _push_patient(Queue *qu, char nome[], char orgao[], int idade, int grau){
@@ -100,15 +101,8 @@ int _push_patient(Queue *qu, char nome[], char orgao[], int idade, int grau){
 	}else{
 		/// percorrer fila
 		Queue tmp = *qu;
-		while(tmp->next != *qu && tmp->next->grau > grau){
+		while(tmp->next != *qu && tmp->next->grau >= grau){
 			tmp = tmp->next;
-		}
-		if(tmp->next->grau == grau){
-			/// se grau for igual, ordena por ordem de chegada.
-			tmp = tmp->next;
-			// node->next = tmp->next->next;
-			// tmp->next->next = node;
-		
 		}
 		node->next = tmp->next;
 		tmp->next = node;
@@ -137,7 +131,7 @@ int _push_back(Queue *qu, char orgao[]){
 	return 1;
 }
 
-int _push_back_donator(Qu_don *qu, char nome[], char arr_str[][70], int j){
+int _push_back_donator(Qu_don *qu, char nome[], char arr_str[][300], int j){
 	/// add doador na fila de doadores
 	Qu_don node = (Qu_don) malloc(sizeof(struct node_doadores));
 	_alloc_check(node, "Error while allocating node, func _push_donator!");
@@ -187,20 +181,25 @@ int _pop_name(Queue *qu, char nome[]){
 			*qu = NULL; /// fila fica vazia
 			free(tmp);
 		}else{
-			tmp->next = (*qu)->next;
+			tmp2 = tmp->next;
+			tmp->next = tmp2->next;
 			*qu = tmp; /// novo ultimo node
-			free(tmp->next); /// libera antigo ultimo node
+			free(tmp2); /// libera antigo ultimo node
 		}
 
 		return 1;
 	}
 
-	/// beneficiado n existe na fila, logo orgao vai para o primeiro da fila
-	if(_pop_front(qu, nome))
-		return 1;
+	/// orgao vai para o primeiro da fila
+	tmp = (*qu)->next; // aponta p/ node a ser removido
+	strcpy(nome, tmp->nome); /// copia nome do paciente transplantado
+	if(*qu == (*qu)->next)
+		*qu = NULL; // fila com um unico node
+	else
+		(*qu)->next = tmp->next;
+	free(tmp);
 	
-	perror("Error at _pop func!");
-	exit(EXIT_FAILURE);
+	return 1;
 }
 
 int _pop_front(Queue *qu, char nome[]){
@@ -208,12 +207,10 @@ int _pop_front(Queue *qu, char nome[]){
 
 	Queue tmp = (*qu)->next; // aponta p/ node a ser removido
 	strcpy(nome, tmp->nome); /// copia nome do paciente transplantado
-
 	if(*qu == (*qu)->next)
 		*qu = NULL; // fila com um unico node
 	else
 		(*qu)->next = tmp->next;
-	
 	free(tmp);
 
 	return 1;
@@ -240,6 +237,17 @@ int _print_donator(Qu_don *qu){
 	}
 	_print_don_node(tmp->nome, tmp->orgao_benef);
 }
+
+int _print_disp(Queue *qu){
+	if(_is_empty(*qu)) return 0;
+	Queue tmp = (*qu)->next;
+	while(tmp != *qu){
+		_print_node_disp(tmp->orgao, 0);
+		tmp = tmp->next;
+	}
+	_print_node_disp(tmp->orgao, 1);
+}
+
 
 
 // int insertBegi(List *lst, int elem){
