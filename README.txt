@@ -1,10 +1,10 @@
 O progresso do esquema:
-1 - Pronto
-2 - Pronto
+1 - DONE
+2 - DONE
 3 - Falta arrumar a remoção
-4 - 
-5 - 
-6 - 
-7 - Pronto
-8 - 
-9 - tem 9 não KKKK
+4 - Amauri na contencao
+5 - se Deus quiser
+6 - 50%
+7 - DONE
+8 - ??
+9 - tem 9 não KKKK TA LOCO TEM 9 NKKKKKKKKKKKKKKKK
