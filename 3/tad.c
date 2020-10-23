@@ -27,7 +27,7 @@ return 0;
 }
 
 int tamanho(fila f){
-return (f->ini +  f->cont_veic)%max_veic;
+return f->cont_veic;
 }
 
 int fila_cheia(fila f){
@@ -56,40 +56,72 @@ int remove_ini(fila f){ //remove o primeiro elemento da fila, sera usada na fila
 if(fila_vazia(f))
     return 0;
 f->ini = (f->ini+1)%max_veic; //incremento circular na variavel inicio para remover
+f->cont_veic --;
 return 1;
 }
 
-int remover(fila f,char placa[10]){
-if(fila_vazia(f))
-  return 0;
-int i,g = 0;
-fila aux = cria_fila();
-if(aux == NULL) return 0;
+int _pop_back(fila qu, char retorno[]){
+    if(fila_vazia(qu)) return 0;
 
-for(i = f->ini;i < f->cont_veic;i++){ //procura a placa que deve ser removida
-  if(strcmp(f->placa[i],placa) != 0){
-    insere(aux,f->placa[i]);
-    g++;
-   }
-  else{
-    g++;
-    while(g--)
-    remove_ini(f);
-    int j;
-    for(j = 0; j < i;j++){
-        strcpy(f->placa[i],aux->placa[j]);
-        //f->cont_veic++;
-    }
-    free(aux);
-    break;
+    int f = (qu->ini + qu->cont_veic-1)%max_veic; /// calcula ultima pos
+    strcpy(retorno, qu->placa[f]);
+    qu->cont_veic --;
+
+    return 1;
+}
+
+int remover(fila f, char placa[10]){
+  if(fila_vazia(f)) return 0;
+
+  char tmp[10];
+  fila piv = cria_fila();
+  int fim = (f->ini + f->cont_veic-1)%max_veic;
+  while(strcmp(placa, f->placa[fim]) != 0){
+    insere(piv, f->placa[fim]);
+    _pop_back(f, tmp);
+    fim = (f->ini + f->cont_veic-1)%max_veic;
   }
+
+  f->cont_veic--;
+  while(_pop_back(piv, tmp)){
+    insere(f, tmp);
+  }
+
+  free(piv);
+  return 1;
 }
-if(i == max_veic){
-    f = aux;
-    return 0; //placa nao encontrada
-}
- return 1; //sucesso
-}
+
+// int remover(fila f,char placa[10]){
+// if(fila_vazia(f))
+//   return 0;
+// int i,g = 0;
+// fila aux = cria_fila();
+// if(aux == NULL) return 0;
+
+// for(i = f->ini;i < f->cont_veic;i++){ //procura a placa que deve ser removida
+//   if(strcmp(f->placa[i],placa) != 0){
+//     insere(aux,f->placa[i]);
+//     g++;
+//    }
+//   else{
+//     g++;
+//     while(g--)
+//     remove_ini(f);
+//     int j;
+//     for(j = 0; j < i;j++){
+//         strcpy(f->placa[i],aux->placa[j]);
+//         //f->cont_veic++;
+//     }
+//     free(aux);
+//     break;
+//   }
+// }
+// if(i == max_veic){
+//     f = aux;
+//     return 0; //placa nao encontrada
+// }
+//  return 1; //sucesso
+// }
 
 
 void visualizar(fila f){

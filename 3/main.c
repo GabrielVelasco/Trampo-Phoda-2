@@ -29,7 +29,7 @@ int main()
          case '1':
              printf("Qual placa deseja inserir?\n");
              setbuf(stdin,NULL);
-             gets(placa);
+             scanf("%s", placa);
              box = 0;
              tam = tamanho(f[0]);
              for(i = 1;i < max_box-1; i++){
@@ -54,7 +54,7 @@ int main()
             scanf("%d",&box);
             printf("Qual placa deseja remover?\n");
             setbuf(stdin,NULL);
-            gets(placa);
+            scanf("%s", placa);
             if(remover(f[box],placa)){
              if(tamanho(f[max_box-1])){
                 insere_da_espera(f[box],f[max_box-1]);
