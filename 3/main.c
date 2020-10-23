@@ -3,7 +3,7 @@
 #include <string.h>
 #include "tad.h"
 #define max_veic 10
-#define max_box 2
+#define max_box 6
 int main()
 {
     fila f[max_box];
@@ -69,9 +69,15 @@ int main()
             break;
 //----------------------------------------------------------------------
          case '3':
-            for(i = 0; i < max_box;i++){
+            printf("Imprimindo:\n");
+            int maximo = max_box-1;
+            for(i = 0;i < max_box-1;i++){
+                if(fila_vazia(f[i]))
+                    maximo = maximo-1;
+            }
+            for(i = 0; i < maximo;i++){
                 tam = tamanho(f[i]);
-            if(i < max_box-1)
+            if(i < maximo-1)
                printf("Box [%d]:\n",i);
             else
                printf("Fila de espera:\n");
@@ -83,10 +89,7 @@ int main()
             printf("Saindo");
             return 0;
 //----------------------------------------------------------------------
-         case '5':
-          remove_ini(f[0]);
-          break;
-        }
+         }
        }
     return 0;
 }
