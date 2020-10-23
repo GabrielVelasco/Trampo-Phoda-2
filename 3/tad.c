@@ -3,7 +3,7 @@
 #include <string.h>
 #include "tad.h"
 #define max_veic 10
-#define max_box 2 //o sexto box eh a fila de espera, ta 2 agr pq e teste
+#define max_box 6 //o sexto box eh a fila de espera
 
 struct Fila{
 char placa[max_veic][10];
@@ -57,14 +57,14 @@ if(fila_vazia(f))
     return 0;
 
 f->ini = (f->ini+1)%max_veic; //incremento circular na variavel inicio para remover
-f->cont_veic --;
+//f->cont_veic--;
 return 1;
 }
 
-int _pop_back(fila qu, char retorno[]){
+int _pop_back(fila qu, char retorno[]){ //remove fim
     if(fila_vazia(qu)) return 0;
 
-    int f = (qu->ini + qu->cont_veic-1)%max_veic; /// calcula ultima pos
+    int f = (qu->ini + qu->cont_veic-1)%max_veic; // calcula ultima pos
     strcpy(retorno, qu->placa[f]);
     qu->cont_veic --;
 
@@ -79,9 +79,10 @@ int remover(fila f, char placa[10]){
   while(strcmp(placa, f->placa[f->ini]) != 0){
     insere(piv, f->placa[f->ini]);
     remove_ini(f);
+    f->cont_veic--;
   }
-
   remove_ini(f);
+  f->cont_veic--;
 
   while(_pop_back(piv, tmp)){
     insere(f, tmp);
@@ -92,13 +93,13 @@ int remover(fila f, char placa[10]){
 }
 
 void visualizar(fila qu){
-    int f = (qu->ini+qu->cont_veic)%max_veic; /// calc final da queue
+    int f = (qu->ini+qu->cont_veic)%max_veic; // calc final da queue
     if(f > qu->ini){
-        /// percorre e printa sentido normal [0 ... f-1]
+        // percorre e printa sentido normal [0 ... f-1]
         for(int i = qu->ini; i < f; i++)
             printf("Placa: [ %s ]\n",qu->placa[i]);
     }else{
-        /// printa de (ini ... MAX-1) e de (0 ... f-1)
+        // printa de (ini ... MAX-1) e de (0 ... f-1)
         for(int i = qu->ini; i < max_veic; i++)
             printf("Placa: [ %s ]\n",qu->placa[i]);
         for(int i = 0; i < f; i++)
@@ -161,7 +162,6 @@ for(i = 0;i < max_veic;i++){ //procura a placa que deve ser removida
 }
 if(i == max_veic)
     return 0; //placa nao encontrada
-
   fila aux = f;
   int j,g;
   for(j = f->ini,g = i+1; g < f->cont_veic; g++,j++)
@@ -173,3 +173,4 @@ if(i == max_veic)
    return 1;
 }
 */
+
