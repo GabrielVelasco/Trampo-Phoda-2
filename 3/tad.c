@@ -55,6 +55,7 @@ insere(f,esp->placa[0]);
 int remove_ini(fila f){ //remove o primeiro elemento da fila, sera usada na fila de espera
 if(fila_vazia(f))
     return 0;
+
 f->ini = (f->ini+1)%max_veic; //incremento circular na variavel inicio para remover
 f->cont_veic --;
 return 1;
@@ -75,20 +76,35 @@ int remover(fila f, char placa[10]){
 
   char tmp[10];
   fila piv = cria_fila();
-  int fim = (f->ini + f->cont_veic-1)%max_veic;
-  while(strcmp(placa, f->placa[fim]) != 0){
-    insere(piv, f->placa[fim]);
-    _pop_back(f, tmp);
-    fim = (f->ini + f->cont_veic-1)%max_veic;
+  while(strcmp(placa, f->placa[f->ini]) != 0){
+    insere(piv, f->placa[f->ini]);
+    remove_ini(f);
   }
 
-  f->cont_veic--;
+  remove_ini(f);
+
   while(_pop_back(piv, tmp)){
     insere(f, tmp);
   }
 
   free(piv);
   return 1;
+}
+
+void visualizar(fila qu){
+    int f = (qu->ini+qu->cont_veic)%max_veic; /// calc final da queue
+    if(f > qu->ini){
+        /// percorre e printa sentido normal [0 ... f-1]
+        for(int i = qu->ini; i < f; i++)
+            printf("Placa: [ %s ]\n",qu->placa[i]);
+    }else{
+        /// printa de (ini ... MAX-1) e de (0 ... f-1)
+        for(int i = qu->ini; i < max_veic; i++)
+            printf("Placa: [ %s ]\n",qu->placa[i]);
+        for(int i = 0; i < f; i++)
+            printf("Placa: [ %s ]\n",qu->placa[i]);
+    }
+    printf("\n");
 }
 
 // int remover(fila f,char placa[10]){
@@ -124,15 +140,15 @@ int remover(fila f, char placa[10]){
 // }
 
 
-void visualizar(fila f){
-if(fila_vazia(f))
-    printf(" Vazio\n");
-else{
- int i;
-  for(i = f->ini; i < f->cont_veic; i++)
-    printf("Placa: [ %s ]\n",f->placa[i]);
-  }
- }
+// void visualizar(fila f){
+// if(fila_vazia(f))
+//     printf(" Vazio\n");
+// else{
+//  int i;
+//   for(i = f->ini; i < f->cont_veic; i++)
+//     printf("Placa: [ %s ]\n",f->placa[i]);
+//   }
+//  }
 /*
 int remover(fila f,char placa[10]){
 if(fila_vazia(f))
