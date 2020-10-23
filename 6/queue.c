@@ -226,6 +226,7 @@ int _print_patient(Queue *qu){
 		cont ++;
 	}
 	_print_node(tmp->nome, tmp->orgao, tmp->idade, tmp->grau, cont);
+	return 1;
 }
 
 int _print_donator(Qu_don *qu){
@@ -236,6 +237,7 @@ int _print_donator(Qu_don *qu){
 		tmp = tmp->next;
 	}
 	_print_don_node(tmp->nome, tmp->orgao_benef);
+	return 1;
 }
 
 int _print_disp(Queue *qu){
@@ -246,67 +248,33 @@ int _print_disp(Queue *qu){
 		tmp = tmp->next;
 	}
 	_print_node_disp(tmp->orgao, 1);
+	return 1;
 }
 
+int _clear_queue_patient(Queue *qu){
+	if(_is_empty(*qu)) return 0;
+	Queue tmp = (*qu)->next, tmp2;
+	while(tmp != *qu){
+		tmp2 = tmp;
+		tmp = tmp->next;
+		free(tmp2);
+	}
+	free(tmp);
+	*qu = NULL;
 
+	return 1;
+}
 
-// int insertBegi(List *lst, int elem){
-// 	List node = (List) malloc(sizeof(struct node));
-// 	if( node == NULL ) return 0;
-// 	node->num = elem;
+int _clean_don_queue(Qu_don *qu){
+	if(_is_empty(*qu)) return 0;
+	Qu_don tmp = (*qu)->next, tmp2;
+	while(tmp != *qu){
+		tmp2 = tmp;
+		tmp = tmp->next;
+		free(tmp2);
+	}
+	free(tmp);
+	*qu = NULL;
 
-// 	if( emptyList(*lst) ){
-// 		// node será o primeiro e ultimo
-// 		node->next = node;
-// 		*lst = node;
-// 	}else{
-// 		node->next = (*lst)->next; // node passa a ser o primeiro
-// 		(*lst)->next = node;
-// 	}
-
-// 	return 1;
-// }
-
-// int _pop_back(Queue *qu, char orgao[]){
-// 	if( _is_empty(*qu) ) return 0;
-
-// 	List tmp = *lst; // aponta p/ node a ser removido (*lst)
-// 	*elem = tmp->num; // informacao do elemento removido
-
-// 	if( *lst == (*lst)->next ){
-// 		*lst = NULL;
-// 	}else{
-// 		// move lst p/ o novo ultimo node (atual penultimo)
-// 		while( (*lst)->next != tmp ) 
-// 			(*lst) = (*lst)->next;
-
-// 		(*lst)->next = tmp->next; // novo ultimo node aponta para o primeiro
-// 	}
-
-// 	free(tmp);
-// 	return 1;
-// }
-
-// int getElem(List lstk, int idx, int *elem){
-// 	if( (emptyList(lst)) || (idx >= getSize(lst)) ) return 0; // pos n existe
-
-// 	List tmp = lst->next; // aponta p/ primeiro node
-// 	while(idx --)
-// 		tmp = tmp->next;
-
-// 	*elem = tmp->num;
-// 	return 1;
-// }
-
-// int getSize(List lst){
-// 	if( emptyList(lst) ) return 0;
-// 	List tmp = lst->next; // aponta p/ primeiro node
-
-// 	int size = 1;
-// 	while( tmp != lst ){
-// 		tmp = tmp->next;
-// 		size ++;
-// 	}
-
-// 	return size;
-// }
+	return 1;
+}

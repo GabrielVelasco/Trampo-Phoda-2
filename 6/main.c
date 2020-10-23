@@ -6,22 +6,19 @@
 /*
 	pacientes[0] = fila de pacientes esperando por coracao
 	pacientes[1] = fila de pacientes esperando por figado
-	pacientes[2] = fila de pacientes esperando por rins
-	pacientes[3] = fila de pacientes esperando por cornea
-	pacientes[4] = fila de pacientes esperando por pulmao.
+	.
+	.
+	.
 
 	- Inicializar todas as filas, paci[0] ... paci[4]
 
 	- Inserir paciente:
 		Entrar com os dados (nome, ...), identificar o orgao e seu respectivo indice no array pacientes[]
 		ex; se orgao == coracao, logo sera adicionado em pacientes[0] de acordo com a ordenacao.
-
-		if(orgao == coracao) i = 0, _push(pacientes[i], string nome, string coracao, int idade, int grau)
 	
 	- Cadastro doador:
 		Entrar com os dados (nome, orgaos doados e beneficiado), para cada orgao ler um nome de beneficiado.
 		O beneficiado de cada orgao sai da sua respectiva fila de espera.
-		Add opcao para imprimir lista doadores (todos os dados).
 		Se um doador doa um orgao em que sua respectiva fila de espera esta vazia, o orgao vai para uma fila
 		de disponibilidade.
 		ex; Fulano doa coracao, se _size(pacientes[0]) == 0, _push(disp, coracao)
@@ -37,6 +34,7 @@ void _print_don_node(char nome[], char orgao_benef[][300]){
 	for(int i = 0; strcmp(orgao_benef[i], "##") != 0; i++){
 		printf("%s\n", orgao_benef[i]);
 	}
+	printf("\n");
 }
 
 void _print_node_disp(char orgao[], int last){
@@ -60,8 +58,8 @@ int main(){
 		printf("[1] Inserir pacientes\n");
 		printf("[2] Inserir doador\n");
 		printf("[3] Printar filas\n");
-		// printf("[6] Consult\n");
-		// printf("[Any] Quit\n");
+		printf("[4] Esvaziar fila\n");
+		printf("[Outra] Sair\n");
 		printf("Escolha uma opcao: ");
 		scanf("%d", &opc);
 
@@ -73,10 +71,15 @@ int main(){
 				disp = _create_list();
 				don = _create_list_d();
 				printf("\nListas criadas.\n");
+				ch = 1;
 
 				break;
 
 			case 1:
+				if(!ch){
+					printf("Filas nao inicializadas!\n");
+					break;
+				}
 				printf("\n-Inserir paciente-\n");
 				printf("Digite o nome: ");
 				scanf(" %[^\n]", nome);
@@ -215,11 +218,58 @@ int main(){
 
 				break;
 
+			case 4:
+				printf("\n-Esvaziar fila-:\n");
+				printf("Qual fila deseja esvaziar:\n" );
+				printf("[1- coracao] [2- figado] [3- rins] [4- corneas]\n[5- pulmao] [6- disponibilidade] [7- doadores] [8- todas]\n");
+				scanf("%d", &opc);
+				if(opc != 8){
+					if(opc == 7){
+						if(_clean_don_queue(&don))
+							printf("Fila de doadores limpa!\n");
+						else
+							printf("Fila vazia!\n");
+
+					}else if(opc == 6){
+						if(_clear_queue_patient(&disp))
+							printf("Fila de disponibilidade limpa!\n");
+						else
+							printf("Fila vazia!\n");
+
+					}else{
+						/// limpa fila de algum orgao especifico
+						if(_clear_queue_patient(&pacientes[opc-1]))
+							printf("Fila de %s limpa!\n", nomes_org[opc-1]);
+						else
+							printf("Fila vazia!\n");
+					}
+
+				}else{
+					/// limpa todas as filas
+					if(_clean_don_queue(&don))
+						printf("Fila de doadores limpa!\n");
+					else
+						printf("Fila de doadores vazia!\n");
+
+					if(_clear_queue_patient(&disp))
+						printf("Fila de disponibilidade limpa!\n");
+					else
+						printf("Fila de disponibilidade vazia!\n");
+
+					for(int i = 0; i < 5; i++){
+						if(_clear_queue_patient(&pacientes[i]))
+							printf("Fila de %s limpa!\n", nomes_org[i]);
+						else
+							printf("Fila de %s vazia!\n", nomes_org[i]);
+					}
+				}
+
+				break;
+
 			default:
 				ch = 2;
 		}
 
-		if(!ch) ch = 1;
 		if(ch == 2) break;
 	}
 
