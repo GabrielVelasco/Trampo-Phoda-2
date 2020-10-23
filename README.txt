@@ -1,10 +1,9 @@
 O progresso do esquema:
 1 - DONE
 2 - DONE
-3 - Falta arrumar a remoção
+3 - Falta arrumar a remoção (ARRUMEI pedro????)
 4 - DRONE
-5 - se Deus quiser
+5 - se Deus quiser acho q ele n querkkk
 6 - AVIAO
-7 - DONE
-8 - ??
-9 - tem 9 não KKKK TA LOCO TEM 9 NKKKKKKKKKKKKKKKK
+7 - Gabriel stas a bagulhar
+8 - Amauri na contencao
