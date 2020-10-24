@@ -4,8 +4,31 @@
 #include <stdbool.h>
 #include "deque.h"
 
+
 void _print_node(int data){
+    /// usado em conjunto com funcao void _print.
     printf("[%d] ", data);
+}
+
+bool _print_deque(Deque de){
+    if(_empty_deque(de)) return false;
+    int data;
+    Deque piv = _create_deque();
+    while(_pop_front(de, &data)){
+        printf("[%d] ", data);
+        if(!_push_back(piv, data))
+            printf("Error at pushing to piv deque.\n");
+    }
+    printf("    \n");
+
+    while(_pop_front(piv, &data)){
+        if(!_push_back(de, data))
+            printf("Error at pushing to piv deque.\n");
+    }
+
+    free(piv);
+
+    return true;
 }
 
 int main(){
@@ -55,7 +78,6 @@ int main(){
                     printf("Success!\n");
                 else
                     printf("Deque is full!\n");
-
                 break;
 
             case 3:
@@ -86,16 +108,15 @@ int main(){
             case 5:
                 if(!ch){
                     printf("Deque not initialized.\n");
-                    break;
+                }else{
+                    if(!_print_deque(de))
+                        printf("Deque is empty!\n");
                 }
-                /// arrumar funcao de imprimir
-                _print(de);
                 break;
 
             case 6:
                 if(!ch){
                     printf("Deque not initialized.\n");
-                    break;
                 }else{
                     _delete_deque(&de);
                     printf("Deque has been deleted!\n");

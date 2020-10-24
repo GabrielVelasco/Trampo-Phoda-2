@@ -73,11 +73,13 @@ bool _pop_front(Deque de, int* data){
 }
 
 void _delete_deque(Deque* de){
-    free(*de);
+    if((*de) != NULL)
+        free(*de);
     *de = NULL;
 }
 
 void _print(Deque de){
+    /// printa todo o deque, mais optimizado
     int f = (de->ini+de->cont)%MAX; /// calc final da deque
     if(f > de->ini){
         /// percorre e printa sentido normal [0 ... f-1]
@@ -92,4 +94,3 @@ void _print(Deque de){
     }
     printf("\n");
 }
-
