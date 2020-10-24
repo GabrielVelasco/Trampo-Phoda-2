@@ -1,180 +1,114 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lib/deque.h"
-void imprime(Deque d)
-{
-    int i;
-    for(i=0; ; i++)
-    {
-        int n;
-        if(get_elemento(d,i,&n)==0)
-        {
-            break;
+#include <string.h>
+#include <stdbool.h>
+#include "deque.h"
 
-        }
-        printf("%d\n",n);
-    }
-
+void _print_node(int data){
+    printf("[%d] ", data);
 }
 
-int main()
-{
-    Deque deque;
-    int numero,op,criou=0,insere,remove;
-    while(1)
-    {
-        printf("1- criar deque\n");
-        printf("2- inserir elemento no deque\n");
-        printf("3- remove elemento no deque\n");
-        printf("4- imprimir deque\n");
-        printf("5 - destruir deque\n");
-        printf("6 - sair\n");
-        printf("qual a opcao voce deseja ");
-        scanf("%d",&op);
+int main(){
+    Deque de = NULL;
+    int opc, ch = 0, data;
 
-        switch(op)
-        {
+    while(1){
+        printf("\n0 - Create deque\n");
+        printf("1 - Push back\n");
+        printf("2 - Push front\n");
+        printf("3 - Pop back\n");
+        printf("4 - Pop front\n");
+        printf("5 - Print deque\n");
+        printf("6 - Delete deque\n");
+        printf("Option: ");
+        scanf("%d", &opc); getchar();
 
-        case 1:
-            if(criou==1)
-                printf("o deque ja foi criado para cria-lo novamente libere ele primeiramente na op 5\n");
+        switch(opc){
+            case 0:
+                de = _create_deque();
+                printf("Deque created!\n");
+                ch = 1;
+                break;
 
-
-            if(criou==0)
-            {
-                deque=cria_deque();
-                if(deque!=NULL)
-                {
-                    printf("deque criando sucesso\n");
-                    criou=1;
+            case 1:
+                if(!ch){
+                    printf("Deque not initialized.\n");
+                    break;
                 }
+                printf("Push back, type a number: ");
+                scanf("%d", &data);
+                if(_push_back(de, data))
+                    printf("Success!\n");
                 else
-                {
-                    printf("nao foi possivel criar o deque\n");
+                    printf("Deque is full!\n");
+
+                break;
+
+            case 2:
+                if(!ch){
+                    printf("Deque not initialized.\n");
+                    break;
                 }
-
-            }
-            break;
-        case 2:
-            if(criou==1)
-            {
-                printf("diga o numero\n");
-                scanf("%d",&numero);
-
-                if(deque_cheio(deque)==1)
-                    printf("o deque esta cheio\n");
-
-                printf("onde voce quer inserir 1 inicio 2 final\n");
-                scanf("%d",&insere);
-                if(insere==1)
-                {
-                    if(insere_inicio(deque,numero)==1)
-                        printf("inserido com sucesso no inicio");
-                    else
-                        printf("erro ao inserir\n");
-
-
-                }
-                if(insere==2)
-                {
-                    if(insere_final(deque,numero)==1)
-                        printf("inserido com sucesso no final");
-                    else
-                        printf("erro ao inserir\n");
-
-
-                }
-
-            }
-            else
-            {
-                printf("deque nao foi criado\n");
-            }
-            break;
-        case 3:
-            if(criou==1)
-            {
-                if(deque_vazio(deque)==1)
-                    printf("o deque esta vazio\n");
+                printf("Push front, type a number: ");
+                scanf("%d", &data);
+                if(_push_front(de, data))
+                    printf("Success!\n");
                 else
-                {
-                    printf("onde voce quer remover 1 inicio 2 final\n");
-                    scanf("%d",&remove);
+                    printf("Deque is full!\n");
 
+                break;
 
+            case 3:
+                if(!ch){
+                    printf("Deque not initialized.\n");
+                    break;
                 }
-                if(remove==1)
-                {
+                if(_pop_back(de, &data))
+                    printf("[%d] removed!\n", data);
+                else
+                    printf("Deque is empty!\n");
+
+                break;
 
 
-                    if(remove_inicio(deque)==1)
-                        printf("removido com sucesso no inicio");
-                    else
-                        printf("erro ao remover\n");
-
-
+            case 4:
+                if(!ch){
+                    printf("Deque not initialized.\n");
+                    break;
                 }
-                if(remove==2)
-                {
-                    if(deque_vazio(deque)==1)
-                        printf("o deque esta vazio\n");
-                    if(remove_final(deque)==1)
-                        printf("removido com sucesso no final");
-                    else
-                        printf("erro ao remover\n");
+                if(_pop_front(de, &data))
+                    printf("[%d] removed!\n", data);
+                else
+                    printf("Deque is empty!\n");
 
+                break;
 
+            case 5:
+                if(!ch){
+                    printf("Deque not initialized.\n");
+                    break;
                 }
+                /// arrumar funcao de imprimir
+                _print(de);
+                break;
 
-            }
-            else
-            {
-                printf("deque nao foi criado\n");
-            }
-            break;
-
-        case 4:
-            if(criou==1)
-            {
-                if(deque_vazio(deque)==1){
-                        printf("\nnao ha elemento no deque\n");
-
+            case 6:
+                if(!ch){
+                    printf("Deque not initialized.\n");
+                    break;
                 }else{
-
-                printf("IMPRIMINDO\n");
-                imprime(deque);
+                    _delete_deque(&de);
+                    printf("Deque has been deleted!\n");
+                    ch = 0;
                 }
+                break;
 
+            default:
+                ch = 2;
+        }
 
-
-            }
-            else
-            {
-                printf("deque nao foi criado\n");
-            }
+        if(ch == 2)
             break;
-        case 5:
-
-            if(criou==1)
-            {
-                if( libera_deque(deque)==1)
-                    criou=0;
-            }
-            else
-            {
-                printf("deque nao foi criado\n");
-            }
-            break;
-        case 6:
-            printf("saindo\n");
-            return 0;
-            break;
-        default:
-            printf("opcao invalida digite uma op de 1 a 6\n");
-        } //switch
-
-
-
     }
 
     return 0;
