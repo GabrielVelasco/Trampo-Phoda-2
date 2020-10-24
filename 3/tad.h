@@ -7,5 +7,4 @@ int insere(fila f, char placa[10]);
 void insere_da_espera(fila f,fila esp);
 int remover(fila f, char placa[10]);
 int remove_ini(fila f);
-int _pop_back(fila qu, char retorno[]);
 void visualizar(fila f);
