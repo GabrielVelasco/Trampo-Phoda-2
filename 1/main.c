@@ -2,24 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "pilha.h"
-/*
-void imprime(pilha p){
-if(pilha_vazia(p))
-    printf("A pilha esta vazia\n");
-else{
-  int i;
-  pilha aux = cria_pilha();
-  aux = p;
-    for(i = 0; i < aux->topo;i++){
-       if(aux->tipo[i] == 0)
-            printf("%d\n",aux->info[i].n);
-       else
-            printf("%s\n",aux->info[i].hexal);
-    }
-    free(aux);
-  }
-}
-*/
 
 int main()
 {
@@ -69,7 +51,24 @@ int main()
                 break;
 //--------------------------------------------------------------------------------------
             case 4:
-                imprime(p);
+                if(pilha_vazia(p) == 0){
+                pilha aux = cria_pilha();
+                int tipo;
+                char hexal[34];
+                while(pop(p,&tipo,&num,hexal)){
+                    push(aux,tipo,num,hexal);
+                }
+                while(pop(aux,&tipo,&num,hexal)){
+                    push(p,tipo,num,hexal);
+                    if(tipo == 0)
+                        printf("%d\n",num);
+                    else
+                        printf("%s\n",hexal);
+                 }
+                }
+                else{
+                    printf("A pilha esta vazia\n");
+                }
                 break;
 //--------------------------------------------------------------------------------------
             case 5:

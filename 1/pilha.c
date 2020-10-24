@@ -47,9 +47,17 @@ p->tipo[p->topo] = tipo;
 return 1;
 }
 
-int pop(pilha p){
+int pop(pilha p,int *tipo,int *elem,char hexa[33]){
 if(p == NULL || pilha_vazia(p) == 1)
     return 0;
+if(p->tipo[p->topo] == 0){
+    *elem = p->info[p->topo].n;
+    *tipo = p->tipo[p->topo];
+    }
+else{
+    strcpy(hexa,p->info[p->topo].hexal);
+    *tipo = p->tipo[p->topo];
+}
 p->topo--;
 return 1;
 }
@@ -144,7 +152,7 @@ if(pilha_vazia(p)==1)
     p->topo=-1;
     return 1;
 }
-
+/*
 void imprime(pilha p){
 if(pilha_vazia(p))
     printf("A pilha esta vazia\n");
@@ -158,5 +166,6 @@ else{
     }
    }
 }
+*/
 
 
