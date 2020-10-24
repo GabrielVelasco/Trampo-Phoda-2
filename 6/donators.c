@@ -6,7 +6,7 @@
 
 struct node_doadores{
 	char nome[150];
-	char orgao_benef[10][300]; /// orgao_benef[i] == "orgao doou para benef"
+	char orgao_benef[10][300]; /// orgao_benef[i] == "Doou orgao para benef"
 	struct node_doadores* next;
 
 };
@@ -42,7 +42,7 @@ int _push_back_donator(Qu_don *qu, char nome[], char arr_str[][300], int j){
 	return 1;
 }
 
-int _print_donator(Qu_don *qu){
+int _print_donator_queue(Qu_don *qu){
 	if(_is_empty(*qu)) return 0;
 	Qu_don tmp = (*qu)->next;
 	while(tmp != *qu){

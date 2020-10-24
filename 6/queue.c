@@ -31,39 +31,65 @@ int _is_empty(const void *qu){
 }
 
 int _is_available(Queue *qu, char orgao[]){
-	/// qu == fila de disponibilidade
 	/// se orgao estiver na fila de disponibilidade, paciente ja eh transplantado
 	/// e orgao eh deletado da fila de disponibilidade
 	if(_is_empty(*qu)) return 0;
 
 	Queue tmp = *qu, tmp2;
-	while(tmp->next != *qu){
-		if(strcmp(tmp->next->orgao, orgao) == 0){
-			tmp2 = tmp->next; /// node sera deletado
-			tmp->next = tmp2->next;
-			free(tmp2);
-
-			return 1;
-		}
+	while(tmp->next != *qu && strcmp(tmp->next->orgao, orgao) != 0)
 		tmp = tmp->next;
-	}
 
-	if(tmp->next == *qu && strcmp(tmp->next->orgao, orgao) == 0){
-		/// ultimo node vai ser deletado
+	if(strcmp(tmp->next->orgao, orgao) == 0){
+		tmp2 = tmp->next;
 		if(tmp->next == tmp){
-			/// unico node presente na fila
-			*qu = NULL; /// fila fica vazia
+			*qu = NULL;
 		}else{
-			tmp2 = tmp->next;
 			tmp->next = tmp2->next;
-			*qu = tmp; /// novo ultimo node
-			free(tmp2); /// libera antigo ultimo node
+			if(tmp2 == *qu)
+				*qu = tmp;
 		}
+
+		free(tmp2);
 
 		return 1;
 	}
 
 	return 0;
+}
+
+int _pop_name(Queue *qu, char nome[]){
+	/// remover elemento da fila por nome, 'nome' ja foi transplantado
+	if(_is_empty(*qu))	return 0; /// orgao vai para fila de disponibilidade
+
+	Queue tmp = *qu, tmp2;
+	while(tmp->next != *qu && strcmp(tmp->next->nome, nome) != 0)
+		tmp = tmp->next;
+
+	if(strcmp(tmp->next->nome, nome) == 0){
+		tmp2 = tmp->next;
+		if(tmp->next == tmp){
+			*qu = NULL;
+		}else{
+			tmp->next = tmp2->next;
+			if(tmp2 == *qu)
+				*qu = tmp;
+		}
+
+		free(tmp2);
+
+		return 1;
+	}
+
+	/// se nome n existir na fila, orgao vai para o primeiro (grau de gravidade maior)
+	tmp = (*qu)->next; // aponta p/ node a ser removido
+	strcpy(nome, tmp->nome); /// copia nome do paciente transplantado
+	if(*qu == (*qu)->next)
+		*qu = NULL; // fila com um unico node
+	else
+		(*qu)->next = tmp->next;
+	free(tmp);
+	
+	return 1;
 }
 
 int _push_patient(Queue *qu, char nome[], char orgao[], int idade, int grau){
@@ -121,50 +147,6 @@ int _push_back(Queue *qu, char orgao[]){
 	return 1;
 }
 
-int _pop_name(Queue *qu, char nome[]){
-	/// remover elemento da fila por nome, 'nome' ja foi transplantado
-	if(_is_empty(*qu))	return 0; /// orgao vai para fila de disponibilidade
-
-	Queue tmp = *qu, tmp2;
-	while(tmp->next != *qu){
-		if(strcmp(tmp->next->nome, nome) == 0){
-			tmp2 = tmp->next; /// node sera deletado
-			tmp->next = tmp2->next;
-			free(tmp2);
-
-			return 1;
-		}
-		tmp = tmp->next;
-	}
-
-	if(tmp->next == *qu && strcmp(tmp->next->nome, nome) == 0){
-		/// ultimo node vai ser deletado
-		if(tmp->next == tmp){
-			/// unico node presente na fila
-			*qu = NULL; /// fila fica vazia
-			free(tmp);
-		}else{
-			tmp2 = tmp->next;
-			tmp->next = tmp2->next;
-			*qu = tmp; /// novo ultimo node
-			free(tmp2); /// libera antigo ultimo node
-		}
-
-		return 1;
-	}
-
-	/// orgao vai para o primeiro da fila
-	tmp = (*qu)->next; // aponta p/ node a ser removido
-	strcpy(nome, tmp->nome); /// copia nome do paciente transplantado
-	if(*qu == (*qu)->next)
-		*qu = NULL; // fila com um unico node
-	else
-		(*qu)->next = tmp->next;
-	free(tmp);
-	
-	return 1;
-}
-
 int _pop_front(Queue *qu, char nome[]){
 	if(_is_empty(*qu)) return 0;
 
@@ -179,31 +161,31 @@ int _pop_front(Queue *qu, char nome[]){
 	return 1;
 }
 
-int _print_patient(Queue *qu){
+int _print_patient_queue(Queue *qu){
 	if(_is_empty(*qu)) return 0;
 	int cont = 1;
 	Queue tmp = (*qu)->next;
 	while(tmp != *qu){
-		_print_node(tmp->nome, tmp->orgao, tmp->idade, tmp->grau, cont);
+		_print_patient_node(tmp->nome, tmp->orgao, tmp->idade, tmp->grau, cont);
 		tmp = tmp->next;
 		cont ++;
 	}
-	_print_node(tmp->nome, tmp->orgao, tmp->idade, tmp->grau, cont);
+	_print_patient_node(tmp->nome, tmp->orgao, tmp->idade, tmp->grau, cont);
 	return 1;
 }
 
-int _print_disp(Queue *qu){
+int _print_disp_queue(Queue *qu){
 	if(_is_empty(*qu)) return 0;
 	Queue tmp = (*qu)->next;
 	while(tmp != *qu){
-		_print_node_disp(tmp->orgao, 0);
+		_print_disp_node(tmp->orgao, 0);
 		tmp = tmp->next;
 	}
-	_print_node_disp(tmp->orgao, 1);
+	_print_disp_node(tmp->orgao, 1);
 	return 1;
 }
 
-int _clear_queue_patient(Queue *qu){
+int _clear_patient_queue(Queue *qu){
 	if(_is_empty(*qu)) return 0;
 	Queue tmp = (*qu)->next, tmp2;
 	while(tmp != *qu){

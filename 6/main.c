@@ -26,7 +26,7 @@
 
 */
 
-void _print_node(char nome[], char orgao[], int idade, int grau, int cont){
+void _print_patient_node(char nome[], char orgao[], int idade, int grau, int cont){
 	printf("%d - Nome: %s, Orgao: %s, Idade: %d, Grau: %d.\n", cont, nome, orgao, idade, grau);
 }
 
@@ -38,7 +38,7 @@ void _print_don_node(char nome[], char orgao_benef[][300]){
 	printf("\n");
 }
 
-void _print_node_disp(char orgao[], int last){
+void _print_disp_node(char orgao[], int last){
 	if(!last)
 		printf("%s, ", orgao);
 	else
@@ -202,18 +202,18 @@ int main(){
 				printf("\n");
 				for(int i = 0; i < 5; i++){
 					printf("-Fila de espera %s-\n", nomes_org[i]);
-					if(!_print_patient(&pacientes[i]))
+					if(!_print_patient_queue(&pacientes[i]))
 						printf("Vazia!\n");
 					printf("\n");
 				}
 
 				printf("-Fila de doadores-:\n");
-				if(!_print_donator(&don))
+				if(!_print_donator_queue(&don))
 					printf("Vazia!\n");
 				printf("\n");
 
 				printf("-Fila de disponibilidade-:\n");
-				if(!_print_disp(&disp))
+				if(!_print_disp_queue(&disp))
 					printf("Vazia!\n");
 				printf("\n");
 
@@ -232,14 +232,14 @@ int main(){
 							printf("Fila vazia!\n");
 
 					}else if(opc == 6){
-						if(_clear_queue_patient(&disp))
+						if(_clear_patient_queue(&disp))
 							printf("Fila de disponibilidade limpa!\n");
 						else
 							printf("Fila vazia!\n");
 
 					}else{
 						/// limpa fila de algum orgao especifico
-						if(_clear_queue_patient(&pacientes[opc-1]))
+						if(_clear_patient_queue(&pacientes[opc-1]))
 							printf("Fila de %s limpa!\n", nomes_org[opc-1]);
 						else
 							printf("Fila vazia!\n");
@@ -252,13 +252,13 @@ int main(){
 					else
 						printf("Fila de doadores vazia!\n");
 
-					if(_clear_queue_patient(&disp))
+					if(_clear_patient_queue(&disp))
 						printf("Fila de disponibilidade limpa!\n");
 					else
 						printf("Fila de disponibilidade vazia!\n");
 
 					for(int i = 0; i < 5; i++){
-						if(_clear_queue_patient(&pacientes[i]))
+						if(_clear_patient_queue(&pacientes[i]))
 							printf("Fila de %s limpa!\n", nomes_org[i]);
 						else
 							printf("Fila de %s vazia!\n", nomes_org[i]);
