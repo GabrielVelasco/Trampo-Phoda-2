@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
-#include "pilha.h"
+#include "fila.h"
 
 void printa_fila(Fila f){
     int ca, fi, ch;
@@ -148,14 +148,6 @@ int main()
             printf("CAIXAS:\n");
             printa_fila(cli_caixa);
         }
-        /* forbidden option: matar o primeiro cliente da fila e roubar seus dados
-        if(opt == 5){
-            if(remove_cliente(cli_fila, &tca, &tfi, &tch))
-                printf("Atendimento: %d\nTempo de espera: %d\nTempo de chegada: %d\n", tca, tfi, tch);
-            else
-                printf("Fila vazia!\n");
-        }
-        */
     }
     return 0;
 }

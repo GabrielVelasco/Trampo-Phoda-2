@@ -3,7 +3,7 @@
 #include <string.h>
 #include "tad.h"
 #define max_veic 10
-#define max_box 2 //o sexto box eh a fila de espera
+#define max_box 6 //o sexto box eh a fila de espera
 
 struct Fila{
 char placa[max_veic][10];

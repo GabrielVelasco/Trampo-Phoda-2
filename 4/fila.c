@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "pilha.h"
+#include "fila.h"
 
 struct cliente{
     int tcaixa, tesp, tcheg;

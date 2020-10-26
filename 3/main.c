@@ -3,7 +3,7 @@
 #include <string.h>
 #include "tad.h"
 #define max_veic 10
-#define max_box 2
+#define max_box 6
 int main()
 {
     fila f[max_box];
