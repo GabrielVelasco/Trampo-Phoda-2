@@ -3,7 +3,7 @@
 #include <string.h>
 #include "tad.h"
 #define max_veic 10
-#define max_box 6
+#define max_box 6 //o sexto box eh a fila de espera
 int main()
 {
     fila f[max_box];
@@ -29,9 +29,9 @@ int main()
          case '1':
              printf("Qual placa deseja inserir?\n");
              setbuf(stdin,NULL);
-             gets(placa);
+             scanf("%s", placa);
              box = 0;
-             tam = tamanho(f[0]);
+             tam = tamanho(f[0]); //procurando o melhor box para inserir
              for(i = 1;i < max_box-1; i++){
                  if(tam > tamanho(f[i])){
                      tam = tamanho(f[i]);
@@ -54,7 +54,7 @@ int main()
             scanf("%d",&box);
             printf("Qual placa deseja remover?\n");
             setbuf(stdin,NULL);
-            gets(placa);
+            scanf("%s", placa);
             if(remover(f[box],placa)){
              if(tamanho(f[max_box-1])){
                 insere_da_espera(f[box],f[max_box-1]);
@@ -69,9 +69,15 @@ int main()
             break;
 //----------------------------------------------------------------------
          case '3':
-            for(i = 0; i < max_box;i++){
+            printf("Imprimindo:\n");
+            int maximo = max_box-1;
+            for(i = 0;i < max_box-1;i++){
+                if(fila_vazia(f[i]))
+                    maximo = maximo-1; //saber quantos box existem
+            }
+            for(i = 0; i < maximo;i++){
                 tam = tamanho(f[i]);
-            if(i < max_box-1)
+            if(i < max_box-1) //verifica se esta sendo imprimido um box ou a fila de espera
                printf("Box [%d]:\n",i);
             else
                printf("Fila de espera:\n");
@@ -83,10 +89,7 @@ int main()
             printf("Saindo");
             return 0;
 //----------------------------------------------------------------------
-         case '5':
-          remove_ini(f[0]);
-          break;
-        }
+         }
        }
     return 0;
 }
