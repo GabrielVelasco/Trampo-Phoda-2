@@ -82,30 +82,14 @@ void _infix_to_post(Stack *S, char exp[]){
         if(exp[i] == '(' || exp[i] == '[' || exp[i] == '{')
             _push(S, exp[i], 0, 0);
 
-        else if(exp[i] == '^'){
+        else if((exp[i] >= '*' && exp[i] <= '/') || (exp[i] == '^')){
             while(_get_top(S, &data) && (_preced_op(data) >= _preced_op(exp[i]))){
                 ans[j] = data;
                 j++;
-                _pop(S, &data, &tmp);
+                _pop(S, &data);
             }
-            _push(S, exp[i], 0, 0);
+            _push(S, exp[i]);
         
-        }else if(exp[i] == '*' || exp[i] == '/'){
-            while(_get_top(S, &data) && (_preced_op(data) >= _preced_op(exp[i]))){
-                ans[j] = data;
-                j++;
-                _pop(S, &data, &tmp);
-            }
-            _push(S, exp[i], 0, 0);
-        
-        }else if(exp[i] == '-' || exp[i] == '+'){
-            while(_get_top(S, &data) && (_preced_op(data) >= _preced_op(exp[i]))){
-                ans[j] = data;
-                j++;
-                _pop(S, &data, &tmp);
-            }
-            _push(S, exp[i], 0, 0);
-
         }else if(exp[i] == ')' || exp[i] == ']' || exp[i] == '}'){
             while(_get_top(S, &data) && (data != '(' && data != '[' && data != '{')){
                 ans[j] = data;
