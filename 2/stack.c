@@ -77,14 +77,6 @@ int _get_top(Stack *S, char *data){
     return 1;
 }
 
-int _preced_op(char op){
-    /// calcula precedencia dos operadores
-    if(op == '^') return 3;
-    else if(op == '*' || op == '/') return 2;
-    else if(op == '+' || op == '-') return 1;
-    else return 0;
-}
-
 void _clean(Stack *S){
     Stack tmp = NULL; /// aponta para topo da stack
     while(*S != NULL){
